@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nitesh Narayan — Teacher. Biker. Blogger.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #faf7f2;
+    --cream: #f3ede2;
+    --rust: #c4501a;
+    --rust-dark: #8b3510;
+    --rust-light: #f0d4c4;
+    --slate: #2d3748;
+    --mist: #6b7280;
+    --gold: #d4a017;
+    --gold-light: #fdf3d7;
+    --engine: #1e293b;
+    --tread: #374151;
+    --white: #ffffff;
+    --shadow: 0 4px 24px rgba(26,18,8,0.08);
+    --shadow-lg: 0 12px 48px rgba(26,18,8,0.14);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196,80,26,0.12);
+    transition: all 0.3s ease;
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--ink); text-decoration: none; letter-spacing: -0.5px; }
+  .nav-logo span { color: var(--rust); font-style: italic; }
+  .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mist); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+  .nav-links a:hover { color: var(--rust); }
+  .nav-cta { background: var(--rust) !important; color: var(--white) !important; padding: 0.5rem 1.25rem; border-radius: 2rem; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; }
+
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 4rem; padding-top: 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute; top: 50%; left: -2rem; transform: translateY(-50%);
+    font-family: 'Playfair Display', serif; font-size: 20rem; font-weight: 900;
+    color: rgba(196,80,26,0.04); line-height: 1; pointer-events: none; user-select: none; white-space: nowrap;
+  }
+  .hero-left { position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--rust-light); color: var(--rust-dark);
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.4rem 1rem; border-radius: 2rem; margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--rust); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)} }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem,5vw,5.5rem); font-weight: 900; line-height: 1.05; color: var(--ink); margin-bottom: 1rem; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero h1 em { font-style: italic; color: var(--rust); }
+  .hero-sub { font-family: 'Caveat', cursive; font-size: 1.4rem; color: var(--mist); margin-bottom: 2rem; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-desc { font-size: 1.05rem; line-height: 1.7; color: var(--tread); max-width: 480px; margin-bottom: 2.5rem; animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.4s ease both; }
+  .btn { padding: 0.85rem 2rem; border-radius: 3rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; transition: all 0.25s ease; letter-spacing: 0.02em; }
+  .btn-primary { background: var(--rust); color: var(--white); }
+  .btn-primary:hover { background: var(--rust-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,80,26,0.3); }
+  .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid rgba(26,18,8,0.2); }
+  .btn-outline:hover { border-color: var(--rust); color: var(--rust); transform: translateY(-2px); }
+
+  .hero-right { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; padding: 3rem; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-image-frame { position: relative; width: 420px; height: 520px; }
+  .hero-image-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--cream) 0%, var(--rust-light) 100%);
+    border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
+    animation: morphBlob 8s ease-in-out infinite;
+  }
+  @keyframes morphBlob {
+    0%,100%{border-radius:40% 60% 60% 40% / 50% 40% 60% 50%}
+    33%{border-radius:60% 40% 40% 60% / 40% 60% 40% 60%}
+    66%{border-radius:50% 50% 60% 40% / 60% 50% 50% 40%}
+  }
+  .hero-avatar {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 340px; height: 420px;
+    background: linear-gradient(180deg, #c4501a22 0%, var(--rust) 100%);
+    border-radius: 30% 70% 70% 30% / 40% 40% 60% 60%;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .avatar-placeholder { font-family: 'Playfair Display', serif; font-size: 7rem; font-weight: 900; color: rgba(255,255,255,0.25); user-select: none; }
+  .hero-badge { position: absolute; background: var(--white); border-radius: 1rem; padding: 0.75rem 1.2rem; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.6rem; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+  .badge-icon { font-size: 1.3rem; }
+  .hero-badge-1 { top: 15%; right: -20px; animation: float 4s ease-in-out infinite; }
+  .hero-badge-2 { bottom: 20%; left: -30px; animation: float 4s 1.5s ease-in-out infinite; }
+  .hero-badge-3 { top: 55%; right: -15px; animation: float 4s 0.8s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)} }
+
+  .hero-stats { display: flex; gap: 2rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(26,18,8,0.1); animation: fadeUp 0.6s 0.5s ease both; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--rust); }
+  .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mist); }
+
+  section { position: relative; z-index: 1; }
+  .section-header { text-align: center; margin-bottom: 3.5rem; }
+  .section-eyebrow { font-family: 'Caveat', cursive; font-size: 1.2rem; color: var(--rust); margin-bottom: 0.5rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,3.5vw,3rem); font-weight: 900; line-height: 1.1; color: var(--ink); }
+  .section-sub { font-size: 1rem; color: var(--mist); margin-top: 0.75rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+  .categories-bar { background: var(--engine); padding: 1.5rem 4rem; display: flex; align-items: center; gap: 1rem; overflow-x: auto; scrollbar-width: none; }
+  .categories-bar::-webkit-scrollbar { display: none; }
+  .cat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); white-space: nowrap; margin-right: 0.5rem; }
+  .cat-chip { padding: 0.45rem 1.2rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 500; white-space: nowrap; cursor: pointer; border: 1.5px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); background: transparent; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .cat-chip:hover, .cat-chip.active { background: var(--rust); border-color: var(--rust); color: var(--white); }
+
+  .blog-section { padding: 6rem 4rem; background: var(--paper); }
+  .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+  .blog-card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.35s ease; cursor: pointer; }
+  .blog-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+  .blog-card.featured { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
+  .card-image { aspect-ratio: 4/3; position: relative; overflow: hidden; }
+  .blog-card.featured .card-image { aspect-ratio: unset; min-height: 300px; }
+  .card-image-inner { width: 100%; height: 100%; transition: transform 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 5rem; }
+  .blog-card:hover .card-image-inner { transform: scale(1.06); }
+  .card-category { position: absolute; top: 1rem; left: 1rem; padding: 0.3rem 0.8rem; border-radius: 2rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .cat-biker { background: var(--engine); color: var(--gold); }
+  .cat-teacher { background: #1a4d3a; color: #7fdb9e; }
+  .cat-blogger { background: var(--rust); color: var(--white); }
+  .cat-study { background: #1e3a5f; color: #93c5fd; }
+  .cat-life { background: #4a1d5f; color: #d8b4fe; }
+  .card-body { padding: 1.5rem; }
+  .card-date { font-size: 0.75rem; color: var(--mist); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; line-height: 1.3; color: var(--ink); margin-bottom: 0.75rem; }
+  .blog-card.featured .card-title { font-size: 1.6rem; }
+  .card-excerpt { font-size: 0.9rem; line-height: 1.6; color: var(--mist); margin-bottom: 1.2rem; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .card-read-time { font-size: 0.75rem; color: var(--mist); }
+  .card-arrow { width: 36px; height: 36px; border-radius: 50%; background: var(--cream); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .blog-card:hover .card-arrow { background: var(--rust); color: var(--white); }
+  .card-arrow svg { width: 16px; height: 16px; }
+
+  .biker-section { padding: 6rem 4rem; background: var(--engine); color: var(--white); position: relative; overflow: hidden; }
+  .biker-section::before { content: '🏍'; position: absolute; right: -2rem; top: 50%; transform: translateY(-50%); font-size: 20rem; opacity: 0.04; pointer-events: none; }
+  .biker-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; align-items: center; }
+  .biker-section .section-title { color: var(--white); }
+  .biker-section .section-sub { color: rgba(255,255,255,0.6); }
+  .biker-section .section-eyebrow { color: var(--gold); }
+  .ride-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .ride-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; transition: all 0.3s; cursor: pointer; }
+  .ride-card:hover { background: rgba(212,160,23,0.15); border-color: var(--gold); transform: translateY(-3px); }
+  .ride-emoji { font-size: 2rem; margin-bottom: 0.75rem; }
+  .ride-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+  .ride-meta { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+  .ride-km { font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--gold); font-weight: 700; margin-top: 0.5rem; }
+  .biker-stats { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 2.5rem; }
+  .biker-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--gold); }
+  .biker-stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+  .study-section { padding: 6rem 4rem; background: var(--cream); }
+  .study-inner { max-width: 1200px; margin: 0 auto; }
+  .study-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+  .study-card { background: var(--white); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; box-shadow: var(--shadow); transition: all 0.3s; cursor: pointer; border: 2px solid transparent; text-decoration: none; color: inherit; display: block; }
+  .study-card:hover { transform: translateY(-5px); border-color: var(--rust); box-shadow: var(--shadow-lg); }
+  .study-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .study-subject { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
+  .study-count { font-size: 0.8rem; color: var(--mist); margin-bottom: 1rem; }
+  .study-tag { display: inline-block; padding: 0.25rem 0.75rem; background: var(--gold-light); color: var(--rust-dark); border-radius: 2rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .gallery-section { padding: 6rem 4rem; background: var(--paper); }
+  .gallery-inner { max-width: 1200px; margin: 0 auto; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4,1fr); grid-template-rows: repeat(2,200px); gap: 1rem; }
+  .gallery-item { border-radius: 16px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.3s; }
+  .gallery-item:hover { transform: scale(0.98); }
+  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(4) { grid-column: span 2; }
+  .gallery-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; transition: transform 0.5s; }
+  .gallery-item:hover .gallery-img { transform: scale(1.05); }
+  .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1rem; color: var(--white); font-size: 0.85rem; font-weight: 500; }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  .about-section { padding: 6rem 4rem; background: var(--rust); color: var(--white); }
+  .about-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; align-items: center; }
+  .about-avatar { width: 280px; height: 280px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 4px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900; color: rgba(255,255,255,0.3); margin: 0 auto; }
+  .about-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,3vw,2.8rem); font-weight: 900; line-height: 1.15; color: var(--white); margin-bottom: 1.2rem; }
+  .about-title em { font-style: italic; color: var(--gold); }
+  .about-body { font-size: 1.05rem; line-height: 1.75; color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; }
+  .about-roles { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .role-pill { padding: 0.5rem 1.25rem; border-radius: 2rem; font-size: 0.85rem; font-weight: 600; border: 2px solid rgba(255,255,255,0.3); color: var(--white); cursor: pointer; transition: all 0.2s; }
+  .role-pill:hover { background: rgba(255,255,255,0.15); border-color: var(--white); }
+
+  .newsletter-section { padding: 5rem 4rem; background: var(--gold-light); }
+  .newsletter-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+  .newsletter-form { display: flex; border-radius: 3rem; overflow: hidden; box-shadow: var(--shadow-lg); background: var(--white); }
+  .newsletter-input { flex: 1; padding: 1rem 1.5rem; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; background: transparent; color: var(--ink); }
+  .newsletter-input::placeholder { color: var(--mist); }
+  .newsletter-btn { padding: 1rem 2rem; background: var(--rust); color: var(--white); border: none; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; border-radius: 0 3rem 3rem 0; transition: background 0.2s; white-space: nowrap; }
+  .newsletter-btn:hover { background: var(--rust-dark); }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.6); padding: 4rem; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--white); margin-bottom: 1rem; }
+  .footer-logo span { color: var(--rust); font-style: italic; }
+  .footer-tagline { font-family: 'Caveat', cursive; font-size: 1rem; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
+  .footer-social { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+  .social-link { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1rem; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.1); }
+  .social-link:hover { background: var(--rust); border-color: var(--rust); }
+  .footer-col h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.65rem; }
+  .footer-col ul li a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; cursor: pointer; }
+  .footer-col ul li a:hover { color: var(--rust); }
+  .footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
+  .footer-bottom a { color: var(--rust); text-decoration: none; }
+
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 2rem; backdrop-filter: blur(6px); }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--white); border-radius: 24px; max-width: 680px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; animation: modalIn 0.3s ease; }
+  @keyframes modalIn { from{opacity:0;transform:scale(0.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)} }
+  .modal-close { position: absolute; top: 1.2rem; right: 1.2rem; width: 36px; height: 36px; border-radius: 50%; background: var(--cream); border: none; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 10; }
+  .modal-close:hover { background: var(--rust); color: var(--white); }
+  .modal-hero { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 5rem; border-radius: 24px 24px 0 0; }
+  .modal-body { padding: 2rem; }
+  .modal-category { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; display: inline-block; padding: 0.3rem 0.8rem; border-radius: 2rem; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 900; line-height: 1.2; color: var(--ink); margin-bottom: 0.75rem; }
+  .modal-meta { font-size: 0.8rem; color: var(--mist); margin-bottom: 1.5rem; display: flex; gap: 1rem; }
+  .modal-content { font-size: 0.97rem; line-height: 1.8; color: var(--tread); }
+  .modal-content p { margin-bottom: 1rem; }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; text-align: center; }
+    .hero-right { display: none; }
+    .hero h1 { font-size: 2.8rem; }
+    .hero-desc { margin: 0 auto 2.5rem; }
+    .hero-btns { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .categories-bar { padding: 1rem 1.5rem; }
+    .blog-section, .biker-section, .study-section, .gallery-section, .about-section, .newsletter-section { padding: 4rem 1.5rem; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .blog-card.featured { grid-column: span 1; display: block; }
+    .biker-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .study-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3,160px); }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+    .gallery-item:nth-child(4) { grid-column: span 1; }
+    .about-inner { grid-template-columns: 1fr; text-align: center; }
+    .about-avatar { width: 200px; height: 200px; font-size: 3.5rem; }
+    .about-roles { justify-content: center; }
+    footer { padding: 3rem 1.5rem; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .newsletter-section { padding: 4rem 1.5rem; }
+    .newsletter-form { flex-direction: column; border-radius: 1rem; }
+    .newsletter-btn { border-radius: 0 0 1rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">Nitesh <span>Narayan</span></a>
+  <ul class="nav-links">
+    <li><a onclick="showSection('blog')">Blog</a></li>
+    <li><a onclick="showSection('rides')">Rides</a></li>
+    <li><a onclick="showSection('study')">Study Hub</a></li>
+    <li><a onclick="showSection('gallery')">Gallery</a></li>
+    <li><a onclick="showSection('about')">About</a></li>
+    <li><a class="nav-cta" onclick="document.querySelector('.newsletter-section').scrollIntoView({behavior:'smooth'})">Subscribe</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg-text">NN</div>
+  <div class="hero-left">
+    <div class="hero-tag">Welcome to my world</div>
+    <h1>Where <em>Chalk</em> Meets <em>Chrome</em></h1>
+    <p class="hero-sub">Teacher by day. Rider by soul. Writer always.</p>
+    <p class="hero-desc">I'm Nitesh Narayan — I teach minds in the classroom, chase horizons on two wheels, and pour it all into words. This is my corner of the internet.</p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" onclick="document.getElementById('blog-section').scrollIntoView({behavior:'smooth'})">Read the Blog</a>
+      <a class="btn btn-outline" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'})">About Me</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">12+</div><div class="stat-label">Years Teaching</div></div>
+      <div class="stat-item"><div class="stat-num">50K+</div><div class="stat-label">KMs Ridden</div></div>
+      <div class="stat-item"><div class="stat-num">200+</div><div class="stat-label">Blog Posts</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-frame">
+      <div class="hero-image-bg"></div>
+      <div class="hero-avatar"><div class="avatar-placeholder">NN</div></div>
+      <div class="hero-badge hero-badge-1">
+        <span class="badge-icon">🏍️</span>
+        <div><div style="font-size:0.7rem;color:var(--mist)">Latest Ride</div><div>Spiti Valley</div></div>
+      </div>
+      <div class="hero-badge hero-badge-2">
+        <span class="badge-icon">📚</span>
+        <div><div style="font-size:0.7rem;color:var(--mist)">Teaching</div><div>Mathematics</div></div>
+      </div>
+      <div class="hero-badge hero-badge-3">
+        <span class="badge-icon">✍️</span>
+        <div><div style="font-size:0.7rem;color:var(--mist)">New Post</div><div>Just Published</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="categories-bar">
+  <span class="cat-label">Browse:</span>
+  <button class="cat-chip active" onclick="filterPosts('all',this)">All Posts</button>
+  <button class="cat-chip" onclick="filterPosts('biker',this)">🏍️ Biker Life</button>
+  <button class="cat-chip" onclick="filterPosts('teacher',this)">📚 Teaching</button>
+  <button class="cat-chip" onclick="filterPosts('blogger',this)">✍️ Thoughts</button>
+  <button class="cat-chip" onclick="filterPosts('life',this)">🌟 Life & Travel</button>
+</div>
+
+<section class="blog-section reveal" id="blog-section">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-header">
+      <div class="section-eyebrow">Fresh from the notebook</div>
+      <h2 class="section-title">Latest Posts</h2>
+      <p class="section-sub">Stories from the classroom, the open road, and everywhere in between.</p>
+    </div>
+    <div class="blog-grid" id="blog-grid"></div>
+    <div style="text-align:center;margin-top:3rem">
+      <button class="btn btn-outline" onclick="alert('More posts coming! Subscribe to get notified.')">Load More Posts</button>
+    </div>
+  </div>
+</section>
+
+<section class="biker-section reveal" id="rides">
+  <div class="biker-inner">
+    <div>
+      <div class="section-header" style="text-align:left">
+        <div class="section-eyebrow">Life on two wheels</div>
+        <h2 class="section-title" style="color:var(--white)">The Rides That <em style="font-style:italic;color:var(--gold)">Changed Me</em></h2>
+        <p class="section-sub" style="margin-left:0;color:rgba(255,255,255,0.6)">Every mile tells a story. From Himalayan passes to coastal highways, the road has been my greatest teacher.</p>
+      </div>
+      <div class="biker-stats">
+        <div><div class="biker-stat-num">28</div><div class="biker-stat-label">States Explored</div></div>
+        <div><div class="biker-stat-num">50K+</div><div class="biker-stat-label">Kilometres</div></div>
+        <div><div class="biker-stat-num">6</div><div class="biker-stat-label">Himalayan Routes</div></div>
+      </div>
+      <div style="margin-top:2rem">
+        <button class="btn" style="background:var(--gold);color:var(--ink);border:none" onclick="filterPosts('biker',null);document.getElementById('blog-section').scrollIntoView({behavior:'smooth'})">Read All Ride Diaries →</button>
+      </div>
+    </div>
+    <div class="ride-cards">
+      <div class="ride-card" onclick="openPostModal('spiti')">
+        <div class="ride-emoji">🏔️</div>
+        <div class="ride-title">Spiti Valley Circuit</div>
+        <div class="ride-meta">Sep 2024 · Himachal Pradesh</div>
+        <div class="ride-km">1,240 km</div>
+      </div>
+      <div class="ride-card" onclick="openPostModal('ladakh')">
+        <div class="ride-emoji">🌌</div>
+        <div class="ride-title">Ladakh — The Cold Desert</div>
+        <div class="ride-meta">Aug 2023 · Leh & Beyond</div>
+        <div class="ride-km">2,100 km</div>
+      </div>
+      <div class="ride-card" onclick="openPostModal('kerala')">
+        <div class="ride-emoji">🌴</div>
+        <div class="ride-title">Kerala Coast Ride</div>
+        <div class="ride-meta">Dec 2023 · Coastal Highway</div>
+        <div class="ride-km">900 km</div>
+      </div>
+      <div class="ride-card" onclick="openPostModal('rajasthan')">
+        <div class="ride-emoji">🏜️</div>
+        <div class="ride-title">Rajasthan Desert Run</div>
+        <div class="ride-meta">Feb 2024 · Jaisalmer Loop</div>
+        <div class="ride-km">1,600 km</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="study-section reveal" id="study">
+  <div class="study-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">From the blackboard to your screen</div>
+      <h2 class="section-title">Study Hub</h2>
+      <p class="section-sub">Curated study material, notes, and resources for students at every level.</p>
+    </div>
+    <div class="study-grid">
+      <a class="study-card" onclick="openStudyModal('math')"><span class="study-icon">📐</span><div class="study-subject">Mathematics</div><div class="study-count">42 resources</div><span class="study-tag">Class 9–12</span></a>
+      <a class="study-card" onclick="openStudyModal('science')"><span class="study-icon">🔬</span><div class="study-subject">Science</div><div class="study-count">35 resources</div><span class="study-tag">Class 6–10</span></a>
+      <a class="study-card" onclick="openStudyModal('english')"><span class="study-icon">📖</span><div class="study-subject">English Literature</div><div class="study-count">28 resources</div><span class="study-tag">All Levels</span></a>
+      <a class="study-card" onclick="openStudyModal('exam')"><span class="study-icon">🎯</span><div class="study-subject">Exam Prep</div><div class="study-count">60 resources</div><span class="study-tag">Board & Competitive</span></a>
+      <a class="study-card" onclick="openStudyModal('puzzles')"><span class="study-icon">🧩</span><div class="study-subject">Brain Puzzles</div><div class="study-count">18 resources</div><span class="study-tag">All Ages</span></a>
+      <a class="study-card" onclick="openStudyModal('notes')"><span class="study-icon">📝</span><div class="study-subject">Class Notes</div><div class="study-count">55 resources</div><span class="study-tag">Free Download</span></a>
+      <a class="study-card" onclick="openStudyModal('video')"><span class="study-icon">🎬</span><div class="study-subject">Video Lessons</div><div class="study-count">24 resources</div><span class="study-tag">YouTube</span></a>
+      <a class="study-card" onclick="openStudyModal('practice')"><span class="study-icon">✏️</span><div class="study-subject">Practice Papers</div><div class="study-count">47 resources</div><span class="study-tag">Printable PDFs</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section reveal" id="gallery">
+  <div class="gallery-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">A thousand words per frame</div>
+      <h2 class="section-title">Gallery</h2>
+      <p class="section-sub">Life through the lens — roads, classrooms, and moments that matter.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item"><div class="gallery-img" style="background:linear-gradient(135deg,#1e293b,#c4501a)">🏔️</div><div class="gallery-overlay">Spiti Valley, 4,500m</div></div>
+      <div class="gallery-item"><div class="gallery-img" style="background:linear-gradient(135deg,#1a4d3a,#22c55e)">🌴</div><div class="gallery-overlay">Kerala Backwaters</div></div>
+      <div class="gallery-item"><div class="gallery-img" style="background:linear-gradient(135deg,#1e3a5f,#3b82f6)">🌊</div><div class="gallery-overlay">Coastal Highway</div></div>
+      <div class="gallery-item"><div class="gallery-img" style="background:linear-gradient(135deg,#4a1d5f,#a855f7)">🏜️</div><div class="gallery-overlay">Thar Desert Sunset</div></div>
+      <div class="gallery-item"><div class="gallery-img" style="background:linear-gradient(135deg,#7c3b1e,#f97316)">🌅</div><div class="gallery-overlay">Dawn on the Highway</div></div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem">
+      <button class="btn btn-outline">View Full Gallery →</button>
+    </div>
+  </div>
+</section>
+
+<section class="about-section reveal" id="about-section">
+  <div class="about-inner">
+    <div><div class="about-avatar">NN</div></div>
+    <div>
+      <h2 class="about-title">I'm Nitesh.<br>I live <em>three lives</em> at once.</h2>
+      <p class="about-body">In the classroom, I'm a Mathematics teacher who believes every student carries a spark of genius waiting to be ignited. On the highway, I'm a biker chasing the kind of freedom that only comes when the road disappears into the horizon. And in between, I'm a blogger — making sense of it all, one word at a time.</p>
+      <p class="about-body">This blog is where chalk dust meets engine grease. Whether you're here for study material, ride diaries, or just honest reflections on life — welcome. Pull up a seat.</p>
+      <div class="about-roles">
+        <span class="role-pill">📚 12 Years Teaching</span>
+        <span class="role-pill">🏍️ Passionate Biker</span>
+        <span class="role-pill">✍️ Lifelong Blogger</span>
+        <span class="role-pill">🌍 Avid Traveller</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter-section reveal">
+  <div class="newsletter-inner">
+    <div class="section-eyebrow" style="text-align:center;font-family:'Caveat',cursive;font-size:1.2rem;color:var(--rust)">Don't miss a word</div>
+    <h2 class="section-title">Join the Journey</h2>
+    <p class="section-sub" style="margin-bottom:2rem">Get new posts, ride updates, and study material delivered straight to your inbox. No spam, ever.</p>
+    <div class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="your@email.com" id="email-input">
+      <button class="newsletter-btn" onclick="subscribeEmail()">Subscribe ✓</button>
+    </div>
+    <p style="font-size:0.8rem;color:var(--mist);margin-top:1rem">Join 3,200+ readers. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Nitesh <span>Narayan</span></div>
+      <div class="footer-tagline">Teacher. Biker. Blogger.</div>
+      <p style="font-size:0.85rem;line-height:1.6;max-width:280px">Sharing lessons from classrooms, highways, and life itself.</p>
+      <div class="footer-social">
+        <a class="social-link" href="#" title="Instagram">📸</a>
+        <a class="social-link" href="#" title="YouTube">🎬</a>
+        <a class="social-link" href="#" title="Twitter">🐦</a>
+        <a class="social-link" href="#" title="Facebook">📘</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Blog</h4>
+      <ul>
+        <li><a onclick="filterPosts('biker',null)">Ride Diaries</a></li>
+        <li><a onclick="filterPosts('teacher',null)">Teaching Tales</a></li>
+        <li><a onclick="filterPosts('life',null)">Life & Travel</a></li>
+        <li><a onclick="filterPosts('blogger',null)">My Thoughts</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Study Hub</h4>
+      <ul>
+        <li><a onclick="openStudyModal('math')">Mathematics</a></li>
+        <li><a onclick="openStudyModal('science')">Science</a></li>
+        <li><a onclick="openStudyModal('exam')">Exam Prep</a></li>
+        <li><a onclick="openStudyModal('notes')">Class Notes</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'})">About Me</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Collaborate</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Nitesh Narayan. Made with ❤️ and engine oil.</span>
+    <span>Designed for a life well lived.</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal(null,true)">✕</button>
+    <div class="modal-hero" id="modal-hero"></div>
+    <div class="modal-body">
+      <span class="modal-category" id="modal-category"></span>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <div class="modal-meta" id="modal-meta"></div>
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const posts = [
+  { id:'spiti', category:'biker', catLabel:'Biker Life', catClass:'cat-biker', emoji:'🏔️', heroBg:'linear-gradient(135deg,#1e293b,#c4501a)', title:'Spiti Valley: When the Road Tests Your Soul', date:'Sep 12, 2024', readTime:'8 min read', excerpt:'At 4,500 metres above sea level, with oxygen thin and the sky impossibly blue, I understood what it means to be truly alive.', content:`<p>There are roads, and then there are roads that break you down just to build you back better. Spiti is the latter.</p><p>I left Shimla at 4am, cold seeping through three layers of riding gear. The Hindustan-Tibet Highway was empty — just me, my Royal Enfield Himalayan, and a moon so full it threw shadows. By the time I reached Rampur, the mountains had swallowed the city whole behind me.</p><p>The Rohtang La was brutal. Roads that become rivers, oxygen that becomes a rumour. My bike coughed at 3,978m. I sat by the roadside and ate a boiled egg from my tank bag, watching a family of yaks cross the pass as if elevation were nothing.</p><p>Kaza arrived on day four — a dusty little town that felt like the edge of the known world. I ate dal chawal for every meal and felt like royalty. The night sky was obscene in its beauty. Not a single light for 80 kilometres in any direction.</p><p>The return was via Pin Valley, a detour I hadn't planned. Spontaneity on a solo ride is sometimes the only compass worth following. Total distance: 1,240 km. Total lessons learned: immeasurable.</p>`, featured:true },
+  { id:'ladakh', category:'biker', catLabel:'Biker Life', catClass:'cat-biker', emoji:'🌌', heroBg:'linear-gradient(135deg,#0f2b4a,#3b82f6)', title:'Ladakh Diaries: Chasing Stars at Pangong', date:'Aug 5, 2023', readTime:'10 min read', excerpt:'Pangong Tso at midnight is the closest a biker can get to riding through a dream. The water is impossible blue. The stars are impossibly many.', content:`<p>The thing about Ladakh is that every photograph looks like it was edited. It wasn't. The landscape is genuinely that extreme, that alien, that magnificent.</p><p>I crossed the Khardung La on a crisp August morning. My gloves fogged with every breath. The altitude gauge on my GPS read 5,359m and I pulled over just to feel the weight of that number.</p><p>Pangong Tso came on day five. I had seen photos. I had watched films shot there. Nothing prepared me. The lake is 134km long, stretching into Tibet, and it shifts colour through the day — steel blue at dawn, turquoise at noon, cobalt at dusk, and silver at night.</p><p>I camped by the shore in a borrowed tent. The temperature dropped to -8°C. I wore every piece of clothing I owned and still lay awake — not from cold, but from the audacity of that sky.</p>` },
+  { id:'teach-spark', category:'teacher', catLabel:'Teaching', catClass:'cat-teacher', emoji:'📚', heroBg:'linear-gradient(135deg,#1a4d3a,#22c55e)', title:'The Student Who Made Me a Better Teacher', date:'Mar 20, 2024', readTime:'5 min read', excerpt:"Rohan sat in the last row every day for a month and never answered a single question. Then one Tuesday, everything changed.", content:`<p>Every teacher has that student. The one who sits quietly, who you almost overlook, who appears absent even when present. For me, that student was Rohan.</p><p>He was in my Class 9 Mathematics batch. Thin boy, second-hand uniform, always in the last row by the window. He never raised his hand. Never caused trouble.</p><p>For three weeks, I called on him. Nothing. A mumbled "don't know, sir." I moved on. Then one Tuesday, I made an error on the blackboard. Rohan raised his hand — slowly, like it was new territory for his arm.</p><p>"Sir, the y-intercept should be 3, not -3."</p><p>He was right. "Rohan, how did you catch that?"</p><p>"I've been drawing graphs on my own, sir. At home. For a while."</p><p>That day I realised some students don't need praise — they need space. My job isn't always to light a spark. Sometimes it's just to not put one out.</p>` },
+  { id:'why-write', category:'blogger', catLabel:'Thoughts', catClass:'cat-blogger', emoji:'✍️', heroBg:'linear-gradient(135deg,#8b3510,#f97316)', title:'Why I Write Even When No One Reads', date:'Jan 8, 2025', readTime:'4 min read', excerpt:"My first blog post got 7 views. Three of them were me. Here's why I kept going.", content:`<p>January 2018. I posted my first piece online — a ride diary from a weekend trip to the Sahyadris. Seven views. Three were me refreshing the page in different browsers.</p><p>And yet. Something happened in the writing of it. A three-hour ride became, on the page, something richer than I'd experienced in real time. Writing makes you notice what you almost missed. The old woman selling marigolds at the first ghat. The smell of rain on asphalt. The precise moment when a highway becomes a road.</p><p>People ask me why I continue when the analytics are modest, when I don't monetise, when I could just keep a private journal. The answer is simple: I write because it makes me more present to my own life. A life written is a life examined.</p>` },
+  { id:'kerala', category:'biker', catLabel:'Biker Life', catClass:'cat-biker', emoji:'🌴', heroBg:'linear-gradient(135deg,#1a4d3a,#22c55e)', title:'Kerala in December: The Coast Road Redemption', date:'Dec 22, 2023', readTime:'7 min read', excerpt:'Nine hundred kilometres of coastal highway, coconut groves, and the particular peace that comes from riding south.', content:`<p>I needed this one. December 2023 had been a bruising semester — tough batch, tough syllabus, tough results. I packed my Himalayan and pointed it south.</p><p>Kerala's NH66 is one of the great overlooked rides of India. The highway runs alongside the sea for vast stretches, lined with coconut palms so dense they form tunnels of green. The Arabian Sea appears and disappears to the right like an old friend playing hide and seek.</p><p>I stopped at every beach that didn't have a name on Google Maps. Ate fish curry from roadside shacks. Drank coconut water handed to me by a man who wouldn't accept payment. These are the payments the road makes you in return for showing up.</p>` },
+  { id:'rajasthan', category:'life', catLabel:'Life & Travel', catClass:'cat-life', emoji:'🏜️', heroBg:'linear-gradient(135deg,#4a1d5f,#a855f7)', title:'Rajasthan Desert Loop: Sand, Stars & Chai', date:'Feb 14, 2024', readTime:'6 min read', excerpt:'Jaisalmer in February is cold in the morning and blazing by noon. On a motorcycle, you feel both.', content:`<p>The Thar Desert is deceptive. In photographs it looks static, monochrome, empty. In reality it is constantly shifting — dunes that weren't there yesterday, light that changes the colour of sand every fifteen minutes.</p><p>I entered Jaisalmer from the Barmer road. The city materialises from the desert like a mirage that decides to be real — honey-coloured stone against ochre sand, the Sonar Quila rising from the ridge like something conjured.</p><p>Three nights. Camel ride at dawn (every cliché exists because it is earned). Night under the stars in a tent. One morning of riding into the desert with no plan, following dust tracks until they petered into nothing, then turning back. Perfect.</p>` }
+];
+
+function renderPosts(filter) {
+  const grid = document.getElementById('blog-grid');
+  grid.innerHTML = '';
+  const filtered = filter === 'all' ? posts : posts.filter(p => p.category === filter);
+  filtered.forEach((post, i) => {
+    const isFeatured = post.featured && i === 0 && filter === 'all';
+    const card = document.createElement('div');
+    card.className = 'blog-card' + (isFeatured ? ' featured' : '');
+    card.onclick = () => openPostModal(post.id);
+    card.innerHTML = `
+      <div class="card-image" style="background:${post.heroBg}">
+        <div class="card-image-inner">${post.emoji}</div>
+        <span class="card-category ${post.catClass}">${post.catLabel}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-date">${post.date}</div>
+        <h3 class="card-title">${post.title}</h3>
+        <p class="card-excerpt">${post.excerpt}</p>
+        <div class="card-footer">
+          <span class="card-read-time">⏱ ${post.readTime}</span>
+          <div class="card-arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function filterPosts(cat, btn) {
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderPosts(cat);
+  document.getElementById('blog-section').scrollIntoView({behavior:'smooth'});
+}
+
+const studyData = {
+  math:{emoji:'📐',title:'Mathematics Resources',color:'#1e3a5f',text:'#93c5fd'},
+  science:{emoji:'🔬',title:'Science Resources',color:'#1a4d3a',text:'#7fdb9e'},
+  english:{emoji:'📖',title:'English Literature',color:'#4a1d5f',text:'#d8b4fe'},
+  exam:{emoji:'🎯',title:'Exam Preparation',color:'#8b3510',text:'#fcd9c0'},
+  puzzles:{emoji:'🧩',title:'Brain Puzzles',color:'#1e293b',text:'#d4a017'},
+  notes:{emoji:'📝',title:'Class Notes',color:'#374151',text:'#e5e7eb'},
+  video:{emoji:'🎬',title:'Video Lessons',color:'#3b1a1a',text:'#f87171'},
+  practice:{emoji:'✏️',title:'Practice Papers',color:'#1c2a1c',text:'#86efac'}
+};
+
+function openStudyModal(type) {
+  const d = studyData[type];
+  document.getElementById('modal-hero').style.background = `linear-gradient(135deg,${d.color},${d.color}99)`;
+  document.getElementById('modal-hero').innerHTML = `<span style="font-size:5rem">${d.emoji}</span>`;
+  const cat = document.getElementById('modal-category');
+  cat.textContent = 'Study Hub';
+  cat.style.background = d.color;
+  cat.style.color = d.text;
+  document.getElementById('modal-title').textContent = d.title;
+  document.getElementById('modal-meta').innerHTML = '<span>Free Resources</span><span>·</span><span>By Nitesh Narayan</span>';
+  document.getElementById('modal-content').innerHTML = `<p>This section contains carefully curated study material. Resources include printable notes, practice papers, solved examples, and video walkthroughs.</p><p>All content is prepared personally by Nitesh Narayan from his 12+ years of classroom teaching experience. Updated regularly with new material.</p><p><strong>Coming soon:</strong> Full download portal. Subscribe to the newsletter to get notified when new material drops.</p>`;
+  document.getElementById('modal-overlay').classList.add('active');
+}
+
+function openPostModal(id) {
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+  document.getElementById('modal-hero').style.background = post.heroBg;
+  document.getElementById('modal-hero').innerHTML = `<span style="font-size:5rem">${post.emoji}</span>`;
+  const cat = document.getElementById('modal-category');
+  cat.textContent = post.catLabel;
+  cat.className = 'modal-category ' + post.catClass;
+  document.getElementById('modal-title').textContent = post.title;
+  document.getElementById('modal-meta').innerHTML = `<span>${post.date}</span><span>·</span><span>${post.readTime}</span>`;
+  document.getElementById('modal-content').innerHTML = post.content;
+  document.getElementById('modal-overlay').classList.add('active');
+}
+
+function closeModal(e, force) {
+  if (force || (e && e.target === document.getElementById('modal-overlay'))) {
+    document.getElementById('modal-overlay').classList.remove('active');
+  }
+}
+
+function subscribeEmail() {
+  const email = document.getElementById('email-input').value;
+  if (!email || !email.includes('@')) { alert('Please enter a valid email!'); return; }
+  alert('🎉 Welcome aboard! You\'ll hear from Nitesh soon.');
+  document.getElementById('email-input').value = '';
+}
+
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  const isOpen = links.style.display === 'flex';
+  Object.assign(links.style, {
+    display: isOpen ? 'none' : 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: '70px', left: '0', right: '0',
+    background: 'var(--paper)',
+    padding: '1rem 1.5rem',
+    borderBottom: '1px solid var(--cream)',
+    zIndex: '99'
+  });
+}
+
+function showSection(s) {
+  const map = {blog:'blog-section',rides:'rides',study:'study',gallery:'gallery',about:'about-section'};
+  document.getElementById(map[s]).scrollIntoView({behavior:'smooth'});
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').style.boxShadow = window.scrollY > 50 ? '0 4px 24px rgba(26,18,8,0.1)' : 'none';
+});
+
+renderPosts('all');
+</script>
+</body>
+</html>
